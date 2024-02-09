@@ -1,0 +1,32 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: CW_mysql
+    volumes:
+     - ./mysql/data:/var/lib/mysql
+     - ./mysql/scripts:/docker-entrypoint-initdb.d
+    ports:
+      - 3310:3306
+    env_file:
+      - ./mysql/.env
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: CW_phpmyadmin
+    env_file:
+      - ./phpmyadmin/.env
+    ports:
+      - 8090:80
+    depends_on:
+      - mysql
+
+  python3:
+    container_name: CW_Python3
+    build: python3
+    volumes:
+      - ./python3:/app
+    working_dir: /app
+    command: python3 app.py
+    depends_on:
+      - mysql
