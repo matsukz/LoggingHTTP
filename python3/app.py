@@ -58,8 +58,6 @@ today:datetime
 time:datetime
 today = datetime.now(JST)
 time = today.time()
-print(type(today))
-print(type(time))
 #----
 
 #HTTP通信を行う
@@ -95,4 +93,5 @@ except Exception as e:
 finally:
     session.close()
 #----
-print("処理が終了しました")
+
+print(f"{today} 処理が終了しました")
