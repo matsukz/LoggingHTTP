@@ -31,5 +31,21 @@ try:
     webhook_url = os.environ["webhook_url"]
 except Exception as e:
     print(f"エラー：{e}")
+#----
 
-print(webhook_url)
+# 今の時間の日付
+today:datetime
+time:datetime
+today = datetime.now(JST)
+time = today.time()
+#print(time)
+#----
+
+#HTTP通信を行う
+#チェック対象のWebサーバーに向けてGETリクエストを送信する
+#ResponseCodeと時間を取得する
+url = "http://100.96.0.1/check_warp"
+header = {"User-Agent":"Python3-Requests/2.31.0"}
+response = requests.get(url,headers=header)
+
+#print(f"respcode={response.status_code}\nresptime={response.elapsed.total_seconds()}")
