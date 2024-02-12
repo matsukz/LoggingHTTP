@@ -88,24 +88,21 @@ def main():
         DBdata.response_code = response.status_code
         DBdata.response_time = response.elapsed.total_seconds()
 
-        if response.status_codes == 200:
-            print("T")
+        if response.status_code == requests.codes.ok:
             DBdata.response_result = True
         else:
-            (print("F"))
             DBdata.response_result = False
         
         session.add(DBdata)
         session.commit()
         
     except Exception as e:
-        print(f"エラー：{e} (L91)")
+        print(f"エラー：{e} (writeDB)")
     finally:
         session.close()
         print(f"{today} 処理が終了しました")
     #----
-
-main()
+          
 #2分毎に実行する
 schedule.every(2).minutes.do(main)
 while True:
