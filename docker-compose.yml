@@ -21,11 +21,21 @@ services:
     depends_on:
       - mysql
 
-  python3:
-    container_name: CW_Python3
-    build: python3
+  python3_http:
+    container_name: CW_Python3_HTTP
+    build: python3/http
     volumes:
-      - ./python3:/app
+      - ./python3/http:/app
+    working_dir: /app
+    command: python3 app.py
+    depends_on:
+      - mysql
+  
+  python3_ping3:
+    container_name: CW_Python3_ping3
+    build: python3/ping3
+    volumes:
+      - ./python3/ping3:/app
     working_dir: /app
     command: python3 app.py
     depends_on:
