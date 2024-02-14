@@ -1,0 +1,7 @@
+discordwebhook
+requests
+sqlalchemy
+PyMySQL
+cryptography
+python-dotenv
+schedule
