@@ -1,8 +1,0 @@
-discordwebhook
-requests
-sqlalchemy
-PyMySQL
-cryptography
-ping3
-python-dotenv
-schedule
