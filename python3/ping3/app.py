@@ -70,7 +70,7 @@ def main():
 
     #PINGの実行(単位=ms 20sでタイムアウト)
     result_ping = ping(
-        "192.168.0.1",
+        "192.168.0.20",
         unit = "ms",
         timeout = 20
     )
