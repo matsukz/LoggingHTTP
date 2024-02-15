@@ -1,4 +1,4 @@
-# DB関連
+#DB関連
 from sqlalchemy import Column
 from sqlalchemy import Integer,BigInteger,String,DateTime,Time,Double,Boolean
 from sqlalchemy import func
@@ -21,7 +21,9 @@ import time
 #その他
 import sys
 import requests
-import ping3
+
+#PING3
+from ping3 import ping
 
 #環境変数関連
 import os
@@ -37,19 +39,18 @@ try:
 except Exception as e:
     print(f"エラー：{e} (L34)")
 #----
-    
+
 #DB接続
 engine = create_engine(f"mysql+pymysql://{db_user}:{db_passwd}@{db_address}/{db_name}?charset=utf8")
 Base = declarative_base()
 #-----
 
 #テーブル情報
-class HttpLog(Base):
+class PINGLog(Base):
     __tablename__ = db_table
     id = Column("id", BigInteger, primary_key=True)
     date = Column("date",DateTime)
     time = Column("time",Time)
-    response_code = Column("response_code",Integer)
     response_time = Column("response_time",Double)
     response_result = Column("response_result",Boolean)
 #----
@@ -67,45 +68,41 @@ def main():
 
     print(f"{today} リクエストを実行します")
 
-    #HTTP通信を行う
-    #チェック対象のWebサーバーに向けてGETリクエストを送信する
-    #ResponseCodeと時間を取得する
-    url = "http://100.96.0.1/check_warp"
-    header = {"User-Agent":"Python3-Requests/2.31.0"}
-    try:
-        response = requests.get(url,headers=header)
-    except Exception as e:
-        print(f"エラー：{e} (L79)")
-        sys.exit(1)
-    #----
+    #PINGの実行(単位=ms 20sでタイムアウト)
+    result_ping = ping(
+        "192.168.0.20",
+        unit = "ms",
+        timeout = 20
+    )
+    #-----
 
     #DBに書き込む処理
     try:
-        
-        DBdata = HttpLog()
-        DBdata.date = today
-        DBdata.time = time
-        DBdata.response_code = response.status_code
-        DBdata.response_time = response.elapsed.total_seconds()
+        DBdate = PINGLog()
 
-        if response.status_code == requests.codes.ok:
-            DBdata.response_result = True
+        #PINGを行った結果がfalseなら異常(ならないと思うけど)
+        if result_ping is None:
+            DBdate.response_time = 0
+            DBdate.response_result = False
+        elif result_ping == False:
+            print("エラー：DBの起動を確認してください")
+            session.close()
+            sys.exit(2)
         else:
-            DBdata.response_result = False
+            DBdate.response_time = result_ping
+            DBdate.response_result = True
+
+        DBdate.date = today
+        DBdate.time = time
         
-        session.add(DBdata)
+        session.add(DBdate)
         session.commit()
-        
+
     except Exception as e:
         print(f"エラー：{e} (writeDB)")
     finally:
         session.close()
         print(f"{today} 処理が終了しました")
     #----
-          
-#2分毎に実行する
-schedule.every(2).minutes.do(main)
-while True:
-    schedule.run_pending()
-    time.sleep(1)
-#----
+
+main()
