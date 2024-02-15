@@ -40,3 +40,13 @@ services:
     command: python3 app.py
     depends_on:
       - mysql
+
+  python3_socket:
+    container_name: CW_Python3_socket
+    build: python3/socket
+    volumes:
+      - ./python3/socket:/app
+    working_dir: /app
+    command: python3 app.py
+    depends_on:
+      - mysql
