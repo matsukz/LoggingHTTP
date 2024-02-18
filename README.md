@@ -25,15 +25,37 @@
     PMA_PASSWORD=
     TZ=Asia/Tokyo
     ```
-  * python3/.env
+  * python3/http/.env
     ```.env
-    db_name=HTTP_Log
+    db_name=
     db_table=
     db_user=
     db_passwd=
     db_address=mysql
+    Connection=
     webhook_url=http://
     ```
+  * python3/ping3/.env
+    ```.env
+    db_name=
+    db_table=
+    db_user=
+    db_passwd=
+    db_address=mysql
+    Connection=
+    webhook_url=http://    
+    ```
+  * python3/socket/.env
+    ```.env
+    db_name=
+    db_table=
+    db_user=
+    db_passwd=
+    db_address=mysql
+    Connection=
+    webhook_url=http://
+    ```
+
 * 起動コマンドを実行します
     ```bash
     docker-compose up -d
