@@ -35,6 +35,7 @@ try:
     db_table = os.environ["db_table"]
     db_user = os.environ["db_user"]
     db_passwd = os.environ["db_passwd"]
+    connection = os.environ["Connection"]
     webhook_url = os.environ["webhook_url"]
 except Exception as e:
     print(f"エラー：{e} (L34)")
@@ -70,7 +71,7 @@ def main():
 
     #PINGの実行(単位=ms 20sでタイムアウト)
     result_ping = ping(
-        "192.168.0.20",
+        connection,
         unit = "ms",
         timeout = 20
     )

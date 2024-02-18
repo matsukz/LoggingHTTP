@@ -32,6 +32,7 @@ try:
     db_table = os.environ["db_table"]
     db_user = os.environ["db_user"]
     db_passwd = os.environ["db_passwd"]
+    connection = os.environ["Connection"]
     webhook_url = os.environ["webhook_url"]
 except Exception as e:
     print(f"エラー：{e} (L34)")
@@ -69,7 +70,7 @@ def main():
     #HTTP通信を行う
     #チェック対象のWebサーバーに向けてGETリクエストを送信する
     #ResponseCodeと時間を取得する
-    url = "http://100.96.0.1/check_warp"
+    url = f"http://{connection}/check_warp"
     header = {"User-Agent":"Python3-Requests/2.31.0"}
     try:
         response = requests.get(url,headers=header)

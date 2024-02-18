@@ -35,6 +35,7 @@ try:
     db_table = os.environ["db_table"]
     db_user = os.environ["db_user"]
     db_passwd = os.environ["db_passwd"]
+    connection = os.environ["Connection"]
     webhook_url = os.environ["webhook_url"]
 except Exception as e:
     print(f"エラー：{e} (L34)")
@@ -71,7 +72,7 @@ def main():
     service = False
     try:
         with socket.create_connection(
-            ("mysql",3306),
+            (connection,3306),
             timeout = 10
         ):
             service = True
