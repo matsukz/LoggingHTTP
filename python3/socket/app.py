@@ -97,7 +97,7 @@ def main():
         print(f"{today} 処理が終了しました")
 #----
 
-#1分毎に実行する
+#2分毎に実行する
 schedule.every(2).minutes.do(main)
 while True:
     schedule.run_pending()

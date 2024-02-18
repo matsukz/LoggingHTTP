@@ -70,7 +70,7 @@ def main():
     #HTTP通信を行う
     #チェック対象のWebサーバーに向けてGETリクエストを送信する
     #ResponseCodeと時間を取得する
-    url = f"http://{connection}/check_warp"
+    url = f"http://{connection}"
     header = {"User-Agent":"Python3-Requests/2.31.0"}
     try:
         response = requests.get(url,headers=header)
