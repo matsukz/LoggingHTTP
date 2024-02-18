@@ -11,7 +11,7 @@
     * 中身なし
   * mysql/.env
     ```env
-    MYSQL_DATABASE=HTTP_Log
+    MYSQL_DATABASE=
     MYSQL_USER=
     MYSQL_PASSWORD=
     MYSQL_ROOT_PASSWORD=
